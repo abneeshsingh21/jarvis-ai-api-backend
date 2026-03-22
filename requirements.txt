@@ -1,0 +1,43 @@
+# JARVIS AI Operating System - Backend Dependencies
+
+# FastAPI and server
+fastapi==0.109.0
+uvicorn[standard]==0.27.0
+websockets==12.0
+python-multipart==0.0.6
+
+# HTTP clients
+aiohttp==3.9.1
+httpx==0.26.0
+requests==2.31.0
+
+# AI/ML
+openai==1.10.0
+groq==0.4.0
+tiktoken==0.5.2
+
+# Data processing
+numpy==1.26.3
+pandas==2.2.0
+pydantic==2.5.3
+
+# Web scraping
+beautifulsoup4==4.12.2
+lxml==5.1.0
+playwright==1.41.0
+
+# Scheduling
+apscheduler==3.10.4
+
+# Database (optional - for persistent storage)
+sqlalchemy==2.0.25
+aiosqlite==0.19.0
+
+# Utilities
+python-dotenv==1.0.0
+pyyaml==6.0.1
+tenacity==8.2.3
+
+# Testing
+pytest==7.4.4
+pytest-asyncio==0.23.3
