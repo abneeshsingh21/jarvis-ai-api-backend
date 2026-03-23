@@ -12,9 +12,9 @@ httpx==0.26.0
 requests==2.31.0
 
 # AI/ML
-openai==1.10.0
+openai
 groq==0.4.1
-tiktoken==0.5.2
+tiktoken
 langgraph==0.2.20
 langchain-core==0.2.39
 langchain-groq==0.1.9
