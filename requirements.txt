@@ -13,7 +13,7 @@ requests==2.31.0
 
 # AI/ML
 openai==1.10.0
-groq==0.4.0
+groq==0.4.1
 tiktoken==0.5.2
 langgraph==0.2.20
 langchain-core==0.2.39
