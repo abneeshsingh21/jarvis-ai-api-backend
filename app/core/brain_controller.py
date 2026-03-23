@@ -69,7 +69,8 @@ class BrainController:
             # 2. Trigger Action if actionable
             if intent in ["auto_money", "manage_github", "manage_linkedin", "open_whatsapp", "toggle_wifi"]:
                 await self.task_queue.put({"intent": intent, "message": message})
-                yield f"data: {json.dumps({'type': 'action', 'content': f'\\n⚡ Trigger: Action [{intent}] queued.\\n'})}\n\n"
+                action_msg = f"\n⚡ Trigger: Action [{intent}] queued.\n"
+                yield f"data: {json.dumps({'type': 'action', 'content': action_msg})}\n\n"
                 
             # 3. Stream LLM Response
             messages = [
