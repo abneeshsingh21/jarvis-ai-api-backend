@@ -60,8 +60,45 @@ class BrainController:
                 logger.error(f"Cron error: {e}")
                 await asyncio.sleep(60)
 
+    async def process_stream(self, message: str, context: Optional[Dict[str, Any]] = None) -> AsyncGenerator[str, None]:
+        """Main V4 entrypoint for handling user input as a stream"""
+        try:
+            # 1. Fast Intent Routing
+            intent = await self._fast_intent_classification(message)
+            
+            # 2. Trigger Action if actionable
+            if intent in ["auto_money", "manage_github", "manage_linkedin", "open_whatsapp", "toggle_wifi"]:
+                await self.task_queue.put({"intent": intent, "message": message})
+                yield f"data: {json.dumps({'type': 'action', 'content': f'\\n⚡ Trigger: Action [{intent}] queued.\\n'})}\n\n"
+                
+            # 3. Stream LLM Response
+            messages = [
+                SystemMessage(content="You are JARVIS V4, an advanced AI. Keep responses extremely concise."),
+                HumanMessage(content=message)
+            ]
+            
+            if self.llm:
+                async for chunk in self.llm.astream(messages):
+                    if chunk.content:
+                        payload = {"type": "token", "content": chunk.content}
+                        yield f"data: {json.dumps(payload)}\n\n"
+            else:
+                yield f"data: {json.dumps({'type': 'error', 'content': 'LLM Offline (No GROQ_API_KEY)'})}\n\n"
+
+        except Exception as e:
+            logger.error(f"Stream generation error: {e}")
+            yield f"data: {json.dumps({'type': 'error', 'content': str(e)})}\n\n"
+
+    async def _fast_intent_classification(self, message: str) -> str:
+        """Fast fuzzy intent matching before heavy LLM processing"""
+        from app.core.nlp_gateway import nlp_gateway
+        
+        intent, confidence, _ = nlp_gateway.detect_intent(message)
+        if confidence > 0.8:
+            return intent
+        return "general_chat"
+
     async def _background_worker(self):
-        """Processes background autonomous tasks sequentially or via asyncio.gather"""
         from app.agents.digital_presence.digital_presence_agent import digital_presence_agent
         
         while True:
