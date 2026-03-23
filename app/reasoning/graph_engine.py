@@ -40,23 +40,23 @@ class LangGraphEngine:
         workflow = StateGraph(AgentState)
         
         # Add nodes
-        workflow.add_node("think", self.node_think)
-        workflow.add_node("plan", self.node_plan)
-        workflow.add_node("execute", self.node_execute)
-        workflow.add_node("reflect", self.node_reflect)
+        workflow.add_node("actor_think", self.node_think)
+        workflow.add_node("actor_plan", self.node_plan)
+        workflow.add_node("actor_execute", self.node_execute)
+        workflow.add_node("actor_reflect", self.node_reflect)
         
         # Add edges
-        workflow.add_edge(START, "think")
-        workflow.add_edge("think", "plan")
-        workflow.add_edge("plan", "execute")
-        workflow.add_edge("execute", "reflect")
+        workflow.add_edge(START, "actor_think")
+        workflow.add_edge("actor_think", "actor_plan")
+        workflow.add_edge("actor_plan", "actor_execute")
+        workflow.add_edge("actor_execute", "actor_reflect")
         
         # Add conditional routing after reflection
         workflow.add_conditional_edges(
-            "reflect",
+            "actor_reflect",
             self.route_after_reflection,
             {
-                "continue": "think",
+                "continue": "actor_think",
                 "end": END
             }
         )
