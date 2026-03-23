@@ -15,14 +15,14 @@ requests==2.31.0
 openai==1.10.0
 groq==0.4.0
 tiktoken==0.5.2
-langgraph>=0.0.26
+langgraph>=0.1.0
 langchain-core>=0.1.30
 langchain-groq>=0.0.1
 
 # Data processing
 numpy==1.26.3
 pandas==2.2.0
-pydantic==2.5.3
+pydantic>=2.5.3
 
 # Web scraping
 beautifulsoup4==4.12.2
