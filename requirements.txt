@@ -22,7 +22,10 @@ langchain-groq==0.1.9
 # Data processing
 numpy==1.26.3
 pandas==2.2.0
-pydantic>=2.5.3
+pydantic==2.12.5
+# Dependencies
+cryptography==42.0.5
+langchain-openai==0.0.8
 
 # Web scraping
 beautifulsoup4==4.12.2
